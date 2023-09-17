@@ -1,0 +1,100 @@
+﻿@{
+    Layout = "";
+}
+
+@model BloodDonation.Web.Models.User.LoginViewModel
+
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Giriş Yap - Kan Bağışı Sistemi</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="
+https://cdn.jsdelivr.net/npm/@@coreui/coreui@4.3.0/dist/js/coreui.bundle.min.js
+"></script>
+    <link href="
+https://cdn.jsdelivr.net/npm/@@coreui/coreui@4.3.0/dist/css/coreui.min.css
+" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body class="d-flex flex-column h-100">
+    
+    <div class="container">
+        <main role="main" class="pb-3">
+            <div class="d-flex flex-row align-items-center" style="min-height: 70vh">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="card-group d-block d-md-flex row">
+                                <div class="card col-md-7 p-4 mb-0">
+                                    <div class="card-body">
+
+                                        <h1>Giriş Yap</h1>
+                                        <p class="text-medium-emphasis">Hesabınıza giriş yapın</p>
+                                        @using (Html.BeginForm("Login", "User", FormMethod.Post, new { @class = "form-horizontal input-sm" }))
+                                        {
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text">
+                                                    <svg class="icon">
+                                                        <use xlink:href="/vendors/@@coreui/icons/svg/free.svg#cil-user"></use>
+                                                    </svg>
+                                                </span>
+                                                @Html.TextBoxFor(m => m.Username, new { @class = "form-control", placeholder = "Kullanıcı Adı", type="text" })
+                                            </div>
+                                            <div class="input-group mb-4">
+                                                <span class="input-group-text">
+                                                    <svg class="icon">
+                                                        <use xlink:href="/vendors/@@coreui/icons/svg/free.svg#cil-lock-locked"></use>
+                                                    </svg>
+                                                </span>
+                                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Parola", value = Model.Password, type="password" })
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <button class="btn btn-primary px-4" type="submit">Giriş yap</button>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="card col-md-5 text-white bg-primary py-5">
+                                    <div class="card-body text-center">
+                                        <div>
+                                            <h2>Kaydol</h2>
+                                            <p>Kan bağışı sistemine kaydolun ve kan bağışı yapabileceğiniz hastaneleri görüntüleyin</p>
+                                            <button class="btn btn-lg btn-outline-light mt-3" type="button" onclick="location.href='@Url.Action("SignUp", "User")'">Şimdi Kaydol!</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @Html.ValidationMessageFor(m => m.Username, null, new { @class = "help-block text-danger" })
+                                        <br />
+                                        @Html.ValidationMessageFor(m => m.Password, null, new { @class = "help-block text-danger" })
+                                        <br />
+                                        @if (ViewBag.Error != null)
+                                        {
+                                            @Html.Label("Error", ViewBag.Error, new { @class = "help-block text-danger" })
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="border-top footer mt-auto py-3 text-muted">
+        <div class="container">
+            &copy; 2023 - Kan Bağışı Sistemi
+        </div>
+    </footer>
+</body>
+</html>

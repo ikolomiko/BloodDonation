@@ -1,0 +1,120 @@
+﻿@using Microsoft.AspNetCore.Http
+@using BloodDonation.Types.Entity
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    int userTypeId = HttpContextAccessor?.HttpContext?.Session.GetInt32("BloodDonation_User_UserTypeId") ?? -1;
+    string userTypeName = userTypeId == -1 ? "Giriş Yapmamış Kullanıcı" : ((UserType)userTypeId).GetName();
+    string? username = HttpContextAccessor?.HttpContext?.Session.GetString("BloodDonation_User_Username");
+    string? firstName = HttpContextAccessor?.HttpContext?.Session.GetString("BloodDonation_User_FirstName");
+    string? lastName = HttpContextAccessor?.HttpContext?.Session.GetString("BloodDonation_User_LastName");
+    int? bloodTypeId = HttpContextAccessor?.HttpContext?.Session.GetInt32("BloodDonation_User_BloodGroupId");
+    string? bloodTypeName = bloodTypeId == null ? null : ((BloodGroup)bloodTypeId).GetName();
+    string? hospitalName = HttpContextAccessor?.HttpContext?.Session.GetString("BloodDonation_User_HospitalName");
+}
+
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Kan Bağışı Sistemi</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="
+https://cdn.jsdelivr.net/npm/@@coreui/coreui@4.3.0/dist/js/coreui.bundle.min.js
+"></script>
+    <link href="
+https://cdn.jsdelivr.net/npm/@@coreui/coreui@4.3.0/dist/css/coreui.min.css
+" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body class="d-flex flex-column h-100">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Kan Bağışı Sistemi</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="List">Kullanıcılar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Hospital" asp-action="List">Hastaneler</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="NeedForBlood" asp-action="ListAll">Kan İhtiyaçları</a>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="header-nav ms-3">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link py-0 px-2 fs-5" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                            <div class="">
+                                <i class="bi bi-person-fill px-1"></i>
+                                @username @userTypeId
+                            </div>
+                        </a>
+                        @if (userTypeId != -1)
+                        {
+                            <div class="dropdown-menu dropdown-menu-end pt-0">
+                                <div class="dropdown-header bg-light py-2">
+                                    <div class="fw-semibold">Hesap Türü: @userTypeName</div>
+                                </div>
+                                @if (userTypeId != 1)
+                                {
+                                    <div class="p-4 text-body-secondary" style="max-width: 300px;">
+                                        <div class="dropdown-header">
+                                            Kullanıcı Adı: @username
+                                        </div>
+                                        <p>
+                                            Ad: @firstName
+                                        </p>
+                                        <p>
+                                            Soyad: @lastName
+                                        </p>
+                                        <p class="mb-0">
+                                            @if ((UserType)userTypeId == UserType.Hospital)
+                                            {
+                                                <span>Hastane Adı: @hospitalName</span>
+                                            }
+                                            else // UserType.Donor
+                                            {
+                                                <span>Kan Grubu: @bloodTypeName </span>
+                                            }
+                                        </p>
+                                    </div>
+                                }
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="Logout">
+                                    <svg class="icon me-2">
+                                        <use xlink:href="/vendors/@@coreui/icons/svg/free.svg#cil-account-logout"></use>
+                                    </svg> Çıkış Yap
+                                </a>
+                            </div>
+                        }
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer mt-auto py-3 text-muted">
+        <div class="container">
+            &copy; 2023 - Kan Bağışı Sistemi
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

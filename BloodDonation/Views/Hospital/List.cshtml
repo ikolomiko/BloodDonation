@@ -1,0 +1,100 @@
+﻿@using Microsoft.AspNetCore.Html;
+
+@{
+    ViewData["Title"] = "Hastane Listesi";
+
+    HtmlString GenerateTd(string? s)
+    {
+        if (s == null)
+        {
+            return new HtmlString("<td style=\"color:gray\"> - </td>");
+        }
+        else
+        {
+            return new HtmlString($"<td>{s}</td>");
+        }
+    }
+}
+
+@model List<BloodDonation.Web.Models.Hospital.ListViewModel>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="">
+            <h4 class="card-header text-center bg-white">
+                Hastane Listesi
+            </h4>
+            <div class="card-body">
+
+                <div class="container mb-3 p-0">
+                    <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Add", "Hospital")'">
+                        Yeni Hastane Ekle
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-responsive table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    ID
+                                </th>
+                                <th>
+                                    Hastane Adı
+                                </th>
+                                <th>
+                                    Telefon
+                                </th>
+                                <th>
+                                    Adres
+                                </th>
+                                <th>
+                                    Eylemler
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            @foreach (var item in Model)
+                            {
+                                <tr class="align-middle">
+                                    @GenerateTd(item.Id.ToString())
+                                    @GenerateTd(item.Name)
+                                    @GenerateTd(item.Phone)
+                                    @GenerateTd(item.Address)
+                                    <td class="text-nowrap text-center">
+                                        <button type="button" class="btn btn-sm btn-warning mx-1 px-2">
+                                            Düzenle
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-danger mx-1 px-3">
+                                            Sil
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                {
+                    <div class="text-danger">
+                        @ViewBag.ErrorMessage
+                    </div>
+                }
+                @if (ViewBag.ErrorMessageList != null)
+                {
+                    <div class="text-danger">
+                        @foreach (var item in ViewBag.ErrorMessageList)
+                        {
+                            <span>@item</span>
+                            <br />
+                        }
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
