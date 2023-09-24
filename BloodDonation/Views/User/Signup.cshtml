@@ -1,0 +1,123 @@
+﻿@{
+    Layout = "";
+}
+
+
+@model BloodDonation.Web.Models.User.SignupViewModel
+@using BloodDonation.Types.Entity
+
+<!DOCTYPE html>
+<html lang="tr" class="h-100">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Giriş Yap - Kan Bağışı Sistemi</title>
+    <script src="https://cdn.jsdelivr.net/npm/@@coreui/coreui@4.3.0/dist/js/coreui.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@@coreui/coreui@4.3.0/dist/css/coreui.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@@coreui/icons@3.0.1/dist/cjs/index.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@@coreui/icons@3.0.1/css/all.min.css" rel="stylesheet">
+</head>
+<body class="d-flex flex-column h-100">
+    <div class="container">
+        <main role="main" class="pb-3">
+            <div class="d-flex flex-row align-items-center" style="min-height: 70vh">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="">
+                                <h4 class="card-header text-center bg-white mb-3">
+                                    Kaydol
+                                </h4>
+                                <div class="card-body">
+
+                                    @using (Html.BeginForm("Signup", "User", FormMethod.Post, new { @class = "form-horizontal input-sm" }))
+                                    {
+                                        <div class="form-group row my-2">
+                                            <label class="col-md-2 col-form-label">Ad</label>
+                                            <div class="col-md-9">
+                                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(m => m.FirstName, null, new { @class = "help-block text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row my-2">
+                                            <label class="col-md-2 col-form-label">Soyad</label>
+                                            <div class="col-md-9">
+                                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(m => m.LastName, null, new { @class = "help-block text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row my-2">
+                                            <label class="col-md-2 col-form-label">Kan Grubu</label>
+                                            <div class="col-md-9">
+                                                @Html.DropDownListFor(m => m.BloodGroupId, Model.BloodGroupSelectList, "Seç", new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(m => m.BloodGroupId, null, new { @class = "help-block text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row my-2">
+                                            <label class="col-md-2 col-form-label">Kullanıcı Adı</label>
+                                            <div class="col-md-9">
+                                                @Html.TextBoxFor(m => m.Username, new { @class = "form-control input-sm" })
+                                                @Html.ValidationMessageFor(m => m.Username, null, new { @class = "help-block text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row my-2">
+                                            <label class="col-md-2 col-form-label">Parola</label>
+                                            <div class="col-md-9">
+                                                @Html.PasswordFor(m => m.Password, new { @class = "form-control input-sm" , type="password"})
+                                                @Html.ValidationMessageFor(m => m.Password, null, new { @class = "help-block text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row my-3">
+                                            <div class="col-md-12 text-center center-text">
+                                                <button class="btn btn-success" type="submit" id="btnSubmit">
+                                                    <i class="fa fa-dot-circle-o"></i> Kaydol
+                                                </button>
+                                                &nbsp;
+                                                <a class="btn btn-danger" href="/User/Login">
+                                                    <i class="fa fa-ban"></i> İptal
+                                                </a>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        @if (ViewBag.ErrorMessage != null && !string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                                        {
+                                            <div class="text-danger">
+                                                @ViewBag.ErrorMessage
+                                            </div>
+                                        }
+                                        @if (ViewBag.ErrorMessageList != null)
+                                        {
+                                            <div class="text-danger">
+                                                @foreach (var item in ViewBag.ErrorMessageList)
+                                                {
+                                                    <span>@item</span>
+                                                    <br />
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="border-top footer mt-auto py-3 text-muted">
+        <div class="container">
+            &copy; 2023 - Kan Bağışı Sistemi
+        </div>
+    </footer>
+</body>
+</html>

@@ -29,11 +29,11 @@ namespace BloodDonation.Controllers
             }
             else if (userType == UserType.Donor)
             {
-                return RedirectToAction("ListAll", "NeedForBlood"); // Donör profili
+                return RedirectToAction("List", "NeedForBlood"); // Donör profili
             }
             else if (userType == UserType.Hospital)
             {
-                return RedirectToAction("ListAll", "NeedForBlood"); // Hastane kullanıcısı profili
+                return RedirectToAction("List", "NeedForBlood"); // Hastane kullanıcısı profili
             }
 
             return Error();

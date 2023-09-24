@@ -1,4 +1,6 @@
-﻿namespace BloodDonation.Web.Models.User
+﻿using BloodDonation.Types.Entity;
+
+namespace BloodDonation.Web.Models.User
 {
     public class ListViewModel
     {
@@ -8,7 +10,7 @@
 
         public string Username { get; set; } = string.Empty;
 
-        public string UserTypeName { get; set; } = string.Empty;
+        public UserType UserType { get; set; }
 
         public string? BloodGroupName { get; set; }
 

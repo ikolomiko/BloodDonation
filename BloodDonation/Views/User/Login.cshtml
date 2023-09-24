@@ -14,6 +14,19 @@
     <link href="https://cdn.jsdelivr.net/npm/@@coreui/coreui@4.3.0/dist/css/coreui.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@@coreui/icons@3.0.1/dist/cjs/index.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/@@coreui/icons@3.0.1/css/all.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+            integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
+            crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (window.location.hash) {
+                const hash = window.location.hash;
+                if (hash == "#signup-successful") {
+                    $(hash).modal('show');
+                }
+            }
+        });
+    </script>
 </head>
 <body class="d-flex flex-column h-100">
     <div class="container">
@@ -46,7 +59,7 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-6">
+                                                <div class="col-12">
                                                     <button class="btn btn-primary px-4" type="submit">Giriş yap</button>
                                                 </div>
                                             </div>
@@ -58,7 +71,7 @@
                                         <div>
                                             <h2>Kaydol</h2>
                                             <p>Kan bağışı sistemine kaydolun ve kan bağışı yapabileceğiniz hastaneleri görüntüleyin</p>
-                                            <button class="btn btn-lg btn-outline-light mt-3" type="button" onclick="location.href='@Url.Action("SignUp", "User")'">Şimdi Kaydol!</button>
+                                            <button class="btn btn-lg btn-outline-light mt-3" type="button" onclick="location.href='@Url.Action("Signup", "User")'">Şimdi Kaydol!</button>
                                         </div>
                                     </div>
                                 </div>
@@ -80,6 +93,22 @@
                 </div>
             </div>
         </main>
+    </div>
+    <div class="modal text-wrap" id="signup-successful" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Kaydolma İşlemi Başarılı!</h5>
+                    <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Sisteme başarıyla kaydoldunuz! Hangi hastanelerde kan ihtiyacı olduğunu görebilmek için şimdi giriş yapın.
+                </div>
+                <div class="d-flex flex-row-reverse m-3">
+                    <button type="button" class="btn btn-primary mx-1 px-2" data-coreui-dismiss="modal">Harika!</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <footer class="border-top footer mt-auto py-3 text-muted">

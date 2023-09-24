@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Yeni Kullanıcı Ekle";
+    ViewData["Title"] = "Kullanıcı Bilgilerini Güncelle";
 }
 
 
@@ -34,11 +34,11 @@
     <div class="col-md-12">
         <div class="">
             <h4 class="card-header text-center bg-white mb-3">
-                Yeni Kullanıcı Ekle
+                Kullanıcı Bilgilerini Güncelle
             </h4>
             <div class="card-body">
 
-                @using (Html.BeginForm("Add", "User", FormMethod.Post, new { @class = "form-horizontal input-sm" }))
+                @using (Html.BeginForm("Edit", "User", FormMethod.Post, new { @class = "form-horizontal input-sm" }))
                 {
                     <div class="form-group row my-2">
                         <label class="col-md-2 col-form-label">Hesap Türü</label>
@@ -83,7 +83,7 @@
                     <div class="form-group row my-2">
                         <label class="col-md-2 col-form-label">Kullanıcı Adı</label>
                         <div class="col-md-9">
-                            @Html.TextBoxFor(m => m.Username, new { @class = "form-control input-sm" })
+                            @Html.TextBoxFor(m => m.Username, new { @class = "form-control input-sm", style="background-color: #D8DBE0", @readonly=true })
                             @Html.ValidationMessageFor(m => m.Username, null, new { @class = "help-block text-danger" })
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                     <div class="form-group row my-2">
                         <label class="col-md-2 col-form-label">Parola</label>
                         <div class="col-md-9">
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control input-sm" , type="password"})
+                            @Html.TextBoxFor(m => m.Password, new { @class = "form-control input-sm" , type="password"})
                             @Html.ValidationMessageFor(m => m.Password, null, new { @class = "help-block text-danger" })
                         </div>
                     </div>
@@ -99,7 +99,7 @@
                     <div class="form-group row my-3">
                         <div class="col-md-12 text-center center-text">
                             <button class="btn btn-success" type="submit" id="btnSubmit">
-                                <i class="fa fa-dot-circle-o"></i> Ekle
+                                <i class="fa fa-dot-circle-o"></i> Kaydet
                             </button>
                             &nbsp;
                             <a class="btn btn-danger" href="/User/List">

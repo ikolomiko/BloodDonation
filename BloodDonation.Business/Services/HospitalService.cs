@@ -15,12 +15,11 @@ namespace BloodDonation.Business.Services
 
         public List<Hospital> GetAll()
         {
-            var result = _dbContext.Hospital.ToList();
-            Console.WriteLine("count: "+result.Count);
+            var result = _dbContext.Hospital.Where(h => h.Id != 0).ToList();
             return result;
         }
 
-        public Hospital GetById(int id)
+        public Hospital? GetById(int id)
         {
             return _dbContext.Hospital.First(x => x.Id == id);
         }
@@ -34,6 +33,12 @@ namespace BloodDonation.Business.Services
         public int Update(Hospital hospital)
         {
             _dbContext.Hospital.Update(hospital);
+            return _dbContext.SaveChanges();
+        }
+
+        public int Delete(Hospital hospital)
+        {
+            _dbContext.Hospital.Remove(hospital);
             return _dbContext.SaveChanges();
         }
     }

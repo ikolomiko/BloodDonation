@@ -16,13 +16,13 @@
     }
 }
 
-@model List<BloodDonation.Web.Models.NeedForBlood.ListAllViewModel>
+@model SortedDictionary<string, List<BloodDonation.Web.Models.NeedForBlood.ListViewModel>>
 
 <div class="row">
     <div class="col-lg-12">
         <div class="">
             <h4 class="card-header text-center bg-white">
-                Kan İhtiyacı Listesi (Bütün Hastaneler, Bütün Kan Grupları)
+                Kan İhtiyaçları Listesi (Bütün Hastaneler, Bütün Kan Grupları)
             </h4>
             <div class="card-body">
 
@@ -32,50 +32,77 @@
                     </button>
                 </div>
 
-                <div class="table-responsive">
-                    <table class="table table-responsive table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>
-                                    ID
-                                </th>
-                                <th>
-                                    Hastane Adı
-                                </th>
-                                <th>
-                                    Kan Grubu
-                                </th>
-                                <th>
-                                    İhtiyaç Duyulan Miktar (Ünite)
-                                </th>
-                                <th>
-                                    Eylemler
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                @foreach (var hospital in Model)
+                {
+                    string hospitalName = hospital.Key;
+                    var needForBloodList = hospital.Value;
 
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <strong>@hospitalName</strong>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-responsive table-bordered table-striped m-0">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                ID
+                                            </th>
+                                            <th>
+                                                Kan Grubu
+                                            </th>
+                                            <th>
+                                                İhtiyaç Duyulan Miktar (Ünite)
+                                            </th>
+                                            <th>
+                                                Eylemler
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in needForBloodList)
+                                        {
+                                            <tr class="align-middle">
+                                                @GenerateTd(item.Id.ToString())
+                                                @GenerateTd(item.BloodGroupName)
+                                                @GenerateTd(item.Amount.ToString())
+                                                <td class="text-nowrap text-center">
+                                                    <button type="button" class="btn btn-sm btn-warning mx-1 px-2" onclick="location.href='/NeedForBlood/Edit/@item.Id'">
+                                                        Düzenle
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-danger mx-1 px-3" data-coreui-toggle="modal" data-coreui-target="#deleteModal-@item.Id">
+                                                        Sil
+                                                    </button>
 
-                            @foreach (var item in Model)
-                            {
-                                <tr class="align-middle">
-                                    @GenerateTd(item.Id.ToString())
-                                    @GenerateTd(item.HospitalName)
-                                    @GenerateTd(item.BloodGroupName)
-                                    @GenerateTd(item.Amount.ToString())
-                                    <td class="text-nowrap text-center">
-                                        <button type="button" class="btn btn-sm btn-warning mx-1 px-2">
-                                            Düzenle
-                                        </button>
-                                        <button type="button" class="btn btn-sm btn-danger mx-1 px-3">
-                                            Sil
-                                        </button>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                                                    <div class="modal text-wrap" id="deleteModal-@item.Id" tabindex="-1" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">Kan İhtiyacı Silinsin Mi?</h5>
+                                                                    <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    @hospitalName hastanesindeki @item.BloodGroupName kan grubundan @item.Amount ünitelik kan ihtiyacı sistemden silinsin mi?
+                                                                </div>
+                                                                <div class="d-flex flex-row-reverse m-3">
+                                                                    <form action="/NeedForBlood/Delete/@item.Id" method="post">
+                                                                        <button type="button" class="btn btn-secondary mx-1 px-2" data-coreui-dismiss="modal">İptal</button>
+                                                                        <button type="submit" class="btn btn-danger px-3">Sil</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                }
 
                 @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
                 {

@@ -10,8 +10,8 @@ namespace BloodDonation.Business.Interfaces
         List<UserWithDetail> GetAllWithDetailForHospitalUser();
         User? GetByUsername(string username);
         User? GetByUserNameAndPassword(string username, string password);
-        User? GetByUserName(string username);
         int Add(User user);
         int Update(User user);
+        int Delete(User user);
     }
 }

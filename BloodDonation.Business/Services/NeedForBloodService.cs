@@ -22,6 +22,11 @@ namespace BloodDonation.Business.Services
             return _dbContext.NeedForBlood.Where(x => x.HospitalId == hospitalId).ToList();
         }
 
+        public List<NeedForBlood> GetAllByBloodGroup(BloodGroup bloodGroup)
+        {
+            return _dbContext.NeedForBlood.Where(x => x.BloodGroupId == (int)bloodGroup).ToList();
+        }
+
         public NeedForBlood? GetById(int id)
         {
             return _dbContext.NeedForBlood.FirstOrDefault(x => x.Id == id);
@@ -41,6 +46,12 @@ namespace BloodDonation.Business.Services
         public int Update(NeedForBlood needForBlood)
         {
             _dbContext.NeedForBlood.Update(needForBlood);
+            return _dbContext.SaveChanges();
+        }
+
+        public int Delete(NeedForBlood needForBlood)
+        {
+            _dbContext.NeedForBlood.Remove(needForBlood);
             return _dbContext.SaveChanges();
         }
 

@@ -64,12 +64,32 @@
                                     @GenerateTd(item.Phone)
                                     @GenerateTd(item.Address)
                                     <td class="text-nowrap text-center">
-                                        <button type="button" class="btn btn-sm btn-warning mx-1 px-2">
+                                        <button type="button" class="btn btn-sm btn-warning mx-1 px-2" onclick="location.href='/Hospital/Edit/@item.Id'">
                                             Düzenle
                                         </button>
-                                        <button type="button" class="btn btn-sm btn-danger mx-1 px-3">
+                                        <button type="button" class="btn btn-sm btn-danger mx-1 px-3" data-coreui-toggle="modal" data-coreui-target="#deleteModal-@item.Id">
                                             Sil
                                         </button>
+
+                                        <div class="modal text-wrap" id="deleteModal-@item.Id" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Hastane Silinsin Mi?</h5>
+                                                        <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        @item.Name adlı hastane sistemden silinsin mi?
+                                                    </div>
+                                                    <div class="d-flex flex-row-reverse m-3">
+                                                        <form action="/Hospital/Delete/@item.Id" method="post">
+                                                            <button type="button" class="btn btn-secondary mx-1 px-2" data-coreui-dismiss="modal">İptal</button>
+                                                            <button type="submit" class="btn btn-danger px-3">Sil</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             }

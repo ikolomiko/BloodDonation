@@ -1,0 +1,118 @@
+﻿@using Microsoft.AspNetCore.Html;
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Kan İhtiyacı Listesi";
+    string hospitalName = HttpContextAccessor?.HttpContext?.Session?.GetString("BloodDonation_User_HospitalName") ?? "Bilinmeyen Hastane";
+
+    HtmlString GenerateTd(string? s)
+    {
+        if (s == null)
+        {
+            return new HtmlString("<td style=\"color:gray\"> - </td>");
+        }
+        else
+        {
+            return new HtmlString($"<td>{s}</td>");
+        }
+    }
+}
+
+@model List<BloodDonation.Web.Models.NeedForBlood.ListViewModel>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="">
+            <h4 class="card-header text-center bg-white">
+                @hospitalName için Kan İhtiyacı Listesi
+            </h4>
+            <div class="card-body">
+
+                <div class="container mb-3 p-0">
+                    <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Add", "NeedForBlood")'">
+                        Yeni Kan İhtiyacı Ekle
+                    </button>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-responsive table-bordered table-striped m-0">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        ID
+                                    </th>
+                                    <th>
+                                        Kan Grubu
+                                    </th>
+                                    <th>
+                                        İhtiyaç Duyulan Miktar (Ünite)
+                                    </th>
+                                    <th>
+                                        Eylemler
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="align-middle">
+                                        @GenerateTd(item.Id.ToString())
+                                        @GenerateTd(item.BloodGroupName)
+                                        @GenerateTd(item.Amount.ToString())
+                                        <td class="text-nowrap text-center">
+                                            <button type="button" class="btn btn-sm btn-warning mx-1 px-2" onclick="location.href='/NeedForBlood/Edit/@item.Id'">
+                                                Düzenle
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-danger mx-1 px-3" data-coreui-toggle="modal" data-coreui-target="#deleteModal-@item.Id">
+                                                Sil
+                                            </button>
+
+                                            <div class="modal text-wrap" id="deleteModal-@item.Id" tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Kan İhtiyacı Silinsin Mi?</h5>
+                                                            <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            @hospitalName hastanesindeki @item.BloodGroupName kan grubundan @item.Amount ünitelik kan ihtiyacı sistemden silinsin mi?
+                                                        </div>
+                                                        <div class="d-flex flex-row-reverse m-3">
+                                                            <form action="/NeedForBlood/Delete/@item.Id" method="post">
+                                                                <button type="button" class="btn btn-secondary mx-1 px-2" data-coreui-dismiss="modal">İptal</button>
+                                                                <button type="submit" class="btn btn-danger px-3">Sil</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                {
+                    <div class="text-danger">
+                        @ViewBag.ErrorMessage
+                    </div>
+                }
+                @if (ViewBag.ErrorMessageList != null)
+                {
+                    <div class="text-danger">
+                        @foreach (var item in ViewBag.ErrorMessageList)
+                        {
+                            <span>@item</span>
+                            <br />
+                        }
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

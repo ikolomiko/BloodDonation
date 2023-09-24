@@ -5,8 +5,9 @@ namespace BloodDonation.Business.Interfaces
     public interface IHospitalService
     {
         List<Hospital> GetAll();
-        Hospital GetById(int id);
+        Hospital? GetById(int id);
         int Add(Hospital hospital);
         int Update(Hospital hospital);
+        int Delete(Hospital hospital);
     }
 }

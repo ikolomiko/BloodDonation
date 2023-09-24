@@ -85,11 +85,6 @@ namespace BloodDonation.Business.Services
             return _dbContext.User.FirstOrDefault(x => x.Username == username && x.Password == password);
         }
 
-        public User? GetByUserName(string username)
-        {
-            return _dbContext.User.FirstOrDefault(x => x.Username == username);
-        }
-
         public int Add(User user)
         {
             _dbContext.User.Add(user);
@@ -99,6 +94,12 @@ namespace BloodDonation.Business.Services
         public int Update(User user)
         {
             _dbContext.User.Update(user);
+            return _dbContext.SaveChanges();
+        }
+
+        public int Delete(User user)
+        {
+            _dbContext.User.Remove(user);
             return _dbContext.SaveChanges();
         }
     }

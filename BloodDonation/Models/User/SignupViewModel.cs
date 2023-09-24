@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BloodDonation.Web.Models.User
 {
-    public class AddViewModel
+    public class SignupViewModel
     {
         [Required]
         public string? FirstName { get; set; }
@@ -11,10 +11,7 @@ namespace BloodDonation.Web.Models.User
         [Required]
         public string? LastName { get; set; }
 
-        public byte? BloodGroupId { get; set; }
-
-        [Required]
-        public byte UserTypeId { get; set; }
+        public byte BloodGroupId { get; set; }
 
         [Required]
         public string Username { get; set; } = string.Empty;
@@ -22,10 +19,6 @@ namespace BloodDonation.Web.Models.User
         [Required]
         public string Password { get; set; } = string.Empty;
 
-        public int? HospitalId { get; set; }
-
         public List<SelectListItem>? BloodGroupSelectList { get; set; }
-        public List<SelectListItem>? HospitalSelectList { get; set; }
-        public List<SelectListItem>? UserTypeSelectList { get; set; }
     }
 }
